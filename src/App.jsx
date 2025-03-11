@@ -138,8 +138,8 @@ const CustomVideoPlayer = () => {
         muted
         playsInline
       >
-        <source src="/journavideo2.mov" type="video/quicktime" />
-        <source src="/journavideo2.mov" type="video/mp4" />
+        <source src={import.meta.env.BASE_URL + 'journavideo2.mov'} type="video/quicktime" />
+        <source src={import.meta.env.BASE_URL + 'journavideo2.mov'} type="video/mp4" />
       </video>
 
       {/* Custom Controls */}
