@@ -127,14 +127,9 @@ const CustomVideoPlayer = () => {
 
   return (
     <div className="relative w-full aspect-video bg-orange-950/90 rounded-xl overflow-hidden group">
-      {isVideoLoading && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-400"></div>
-        </div>
-      )}
       <video
         ref={videoRef}
-        className={`w-full h-full object-cover ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
+        className="w-full h-full object-cover"
         onTimeUpdate={handleProgress}
         onClick={togglePlay}
         onPlay={() => setIsPlaying(true)}
@@ -148,6 +143,12 @@ const CustomVideoPlayer = () => {
         <source src={import.meta.env.BASE_URL + 'journavideo2.webm'} type="video/webm" />
         <source src={import.meta.env.BASE_URL + 'journavideo2.mov'} type="video/quicktime" />
       </video>
+
+      {isVideoLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-orange-950/90 pointer-events-none">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-400"></div>
+        </div>
+      )}
 
       {/* Custom Controls */}
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
