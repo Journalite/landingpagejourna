@@ -446,13 +446,21 @@ const LandingPage = () => {
 
         {/* Mobile Menu Overlay */}
         <div 
-          className={`md:hidden fixed inset-0 backdrop-blur-xl bg-black/20
-            transition-all duration-200 ease-out z-50 ${
-            isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-          }`}
-          style={{ top: '0', height: '100vh', position: 'fixed' }}
+          className={`md:hidden fixed inset-0 w-full min-h-screen
+            backdrop-blur-xl bg-gradient-to-b from-orange-950/95 to-orange-900/95
+            transition-all duration-300 ease-out
+            ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}
+            `}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9999
+          }}
         >
-          <ul className="flex flex-col items-center justify-center h-full gap-8 text-lg">
+          <ul className="flex flex-col items-center justify-center h-screen gap-8 text-lg">
             {[
               { name: 'Home', id: 'home' },
               { name: 'Mission', id: 'mission' },
@@ -465,7 +473,7 @@ const LandingPage = () => {
                     scrollToSection(item.id);
                     setIsMenuOpen(false);
                   }}
-                  className="relative group text-xl"
+                  className="relative group text-xl px-6 py-2"
                 >
                   <span className="text-white/90 hover:text-white transition-colors duration-200">
                     {item.name}
