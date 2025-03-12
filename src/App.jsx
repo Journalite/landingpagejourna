@@ -622,7 +622,8 @@ const LandingPage = () => {
             rounded-full backdrop-blur-sm
             transition-all duration-300 
             group focus:outline-none focus:ring-1 focus:ring-orange-400/20
-            shadow-lg hover:shadow-orange-500/10"
+            shadow-lg hover:shadow-orange-500/10
+            z-50"
           aria-label="Scroll to top"
         >
           <div className="relative">
