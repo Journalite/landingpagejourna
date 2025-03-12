@@ -153,8 +153,9 @@ const CustomVideoPlayer = () => {
         muted
         playsInline
       >
+        <source src={import.meta.env.BASE_URL + 'journavideo2.webm'} type="video/webm" />
         <source src={import.meta.env.BASE_URL + 'journavideo2.mov'} type="video/quicktime" />
-        <source src={import.meta.env.BASE_URL + 'journavideo2.mov'} type="video/mp4" />
+        <source src={import.meta.env.BASE_URL + 'journavideo2.mp4'} type="video/mp4" />
       </video>
 
       {isVideoLoading && (
@@ -600,7 +601,7 @@ const LandingPage = () => {
                 ${index === 4 ? "w-full flex justify-center" : ""}`}
             >
               <div className="w-[250px] h-[320px] overflow-hidden bg-gray-800 shadow-lg rounded-md">
-                <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
+                <img src={member.img} alt={member.name} className="w-full h-full object-cover" loading="lazy" />
               </div>
               <p className="text-lg font-semibold">{member.name}</p>
               <p className="text-sm text-orange-300">{member.role}</p>
