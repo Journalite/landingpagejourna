@@ -143,19 +143,18 @@ const CustomVideoPlayer = () => {
         onClick={togglePlay}
         onPlay={() => {
           setIsPlaying(true);
-          setIsVideoLoading(false); // Hide loading when play starts
+          setIsVideoLoading(false);
         }}
         onLoadedData={() => setIsVideoLoading(false)}
-        onPlaying={() => setIsVideoLoading(false)} // Add this event
-        onCanPlay={() => setIsVideoLoading(false)} // Add this event
+        onPlaying={() => setIsVideoLoading(false)}
+        onCanPlay={() => setIsVideoLoading(false)}
         autoPlay
         loop
         muted
         playsInline
       >
-        <source src={import.meta.env.BASE_URL + 'journavideo2.webm'} type="video/webm" />
         <source src={import.meta.env.BASE_URL + 'journavideo2.mov'} type="video/quicktime" />
-        <source src={import.meta.env.BASE_URL + 'journavideo2.mp4'} type="video/mp4" />
+        <source src={import.meta.env.BASE_URL + 'journavideo2.mov'} type="video/mp4" />
       </video>
 
       {isVideoLoading && (
