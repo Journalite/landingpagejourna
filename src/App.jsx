@@ -59,6 +59,7 @@ const CustomVideoPlayer = () => {
   const [progress, setProgress] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -126,20 +127,26 @@ const CustomVideoPlayer = () => {
 
   return (
     <div className="relative w-full aspect-video bg-orange-950/90 rounded-xl overflow-hidden group">
+      {isVideoLoading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-400"></div>
+        </div>
+      )}
       <video
         ref={videoRef}
-        className="w-full h-full object-cover"
+        className={`w-full h-full object-cover ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
         onTimeUpdate={handleProgress}
         onClick={togglePlay}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
+        onLoadedData={() => setIsVideoLoading(false)}
         autoPlay
         loop
         muted
         playsInline
       >
+        <source src={import.meta.env.BASE_URL + 'journavideo2.webm'} type="video/webm" />
         <source src={import.meta.env.BASE_URL + 'journavideo2.mov'} type="video/quicktime" />
-        <source src={import.meta.env.BASE_URL + 'journavideo2.mov'} type="video/mp4" />
       </video>
 
       {/* Custom Controls */}
@@ -440,10 +447,10 @@ const LandingPage = () => {
         {/* Mobile Menu Overlay */}
         <div 
           className={`md:hidden fixed inset-0 backdrop-blur-xl bg-black/20
-            transition-all duration-200 ease-out ${
+            transition-all duration-200 ease-out z-50 ${
             isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
           }`}
-          style={{ top: '0', height: '100vh' }}
+          style={{ top: '0', height: '100vh', position: 'fixed' }}
         >
           <ul className="flex flex-col items-center justify-center h-full gap-8 text-lg">
             {[
