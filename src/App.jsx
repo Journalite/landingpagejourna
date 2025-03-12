@@ -67,6 +67,15 @@ const CustomVideoPlayer = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Add a timeout to hide loading state if video takes too long
+    const timeoutId = setTimeout(() => {
+      setIsVideoLoading(false);
+    }, 2000); // 2 seconds timeout
+
+    return () => clearTimeout(timeoutId);
+  }, []);
+
   const togglePlay = () => {
     if (videoRef.current.paused) {
       videoRef.current.play();
@@ -132,16 +141,20 @@ const CustomVideoPlayer = () => {
         className="w-full h-full object-cover"
         onTimeUpdate={handleProgress}
         onClick={togglePlay}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
+        onPlay={() => {
+          setIsPlaying(true);
+          setIsVideoLoading(false); // Hide loading when play starts
+        }}
         onLoadedData={() => setIsVideoLoading(false)}
+        onPlaying={() => setIsVideoLoading(false)} // Add this event
+        onCanPlay={() => setIsVideoLoading(false)} // Add this event
         autoPlay
         loop
         muted
         playsInline
       >
-        <source src={import.meta.env.BASE_URL + 'journavideo2.webm'} type="video/webm" />
         <source src={import.meta.env.BASE_URL + 'journavideo2.mov'} type="video/quicktime" />
+        <source src={import.meta.env.BASE_URL + 'journavideo2.mov'} type="video/mp4" />
       </video>
 
       {isVideoLoading && (
