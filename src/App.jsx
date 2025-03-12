@@ -614,7 +614,7 @@ const LandingPage = () => {
       {showScrollButton && (
         <button
           onClick={() => scrollToSection("home")}
-          className="fixed bottom-8 right-8 p-3
+          className="fixed md:bottom-8 md:right-8 bottom-20 right-4 p-3  
             bg-gradient-to-r from-orange-800/30 to-orange-700/30
             hover:from-orange-700/40 hover:to-orange-600/40
             border border-orange-400/20 hover:border-orange-400/30
@@ -623,12 +623,12 @@ const LandingPage = () => {
             transition-all duration-300 
             group focus:outline-none focus:ring-1 focus:ring-orange-400/20
             shadow-lg hover:shadow-orange-500/10
-            z-50"
+            z-[60]"
           aria-label="Scroll to top"
         >
           <div className="relative">
             <svg 
-              className="w-6 h-6 transition-transform duration-300 group-hover:-translate-y-1" 
+              className="w-5 h-5 md:w-6 md:h-6 transition-transform duration-300 group-hover:-translate-y-1" 
               xmlns="http://www.w3.org/2000/svg" 
               fill="none" 
               viewBox="0 0 24 24" 
