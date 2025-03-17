@@ -406,23 +406,26 @@ const TypeformContact = () => {
     setIsSubmitting(true);
     
     try {
-      // Use the correct Apps Script URL
-      const scriptURL = "https://script.google.com/macros/library/d/1fRksHNRpZGGUQuJnHcqjVDquck06VAtbk5Mq-4pmdacq-Q0Lg8GnN6of/2";
+      // Use your new Apps Script URL
+      const scriptURL = "https://script.google.com/macros/s/AKfycbzIGXgGSewkCte6TBbC1995dg1hWKoOPw2oGBSMINZ_mUi_UMgU3CwKD5e6KFrNqQainQ/exec";
       
-      // Create form data for submission
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('email', formData.email);
-      formDataToSend.append('field', formData.field);
-      formDataToSend.append('type', formData.type);
-      formDataToSend.append('timestamp', new Date().toISOString());
+      // Create URL with query parameters
+      const url = new URL(scriptURL);
+      url.searchParams.append('name', formData.name);
+      url.searchParams.append('email', formData.email);
+      url.searchParams.append('field', formData.field);
+      url.searchParams.append('type', formData.type);
+      url.searchParams.append('timestamp', new Date().toISOString());
       
-      // Send data to Google Apps Script
-      await fetch(scriptURL, {
-        method: 'POST',
-        body: formDataToSend,
+      console.log("Submitting form data to:", url.toString());
+      
+      // Send data to Google Apps Script using GET with parameters
+      await fetch(url.toString(), {
+        method: 'GET',
         mode: 'no-cors' // Important for CORS issues
       });
+      
+      console.log("Form submitted successfully");
       
       // Show thank you message
       setCurrentQuestion(questions.length);
@@ -580,6 +583,23 @@ const LandingPage = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Add this useEffect to scroll to top on page load
+  useEffect(() => {
+    // Scroll to top when the component mounts
+    window.scrollTo(0, 0);
+    
+    // Remove any hash from the URL without triggering a page reload
+    if (window.location.hash) {
+      const scrollToTop = () => {
+        window.scrollTo(0, 0);
+        history.replaceState(null, document.title, window.location.pathname + window.location.search);
+      };
+      
+      // Use setTimeout to ensure this happens after any browser's automatic scroll to hash
+      setTimeout(scrollToTop, 0);
+    }
   }, []);
 
   const handleChange = (e) => {
