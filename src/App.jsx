@@ -407,7 +407,7 @@ const TypeformContact = () => {
     
     try {
       // Use the correct Apps Script URL
-      const scriptURL = "https://script.google.com/macros/s/AKfycbzK7SqA89irJC8hVpykAwfvzvTTOILGhByvTO4XBjA6IvSKKaKCG7AYce7lPqG7nBLX/exec";
+      const scriptURL = "https://script.google.com/macros/library/d/1fRksHNRpZGGUQuJnHcqjVDquck06VAtbk5Mq-4pmdacq-Q0Lg8GnN6of/2";
       
       // Create form data for submission
       const formDataToSend = new FormData();
