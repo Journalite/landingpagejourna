@@ -554,7 +554,7 @@ const TypeformContact = () => {
       
       {/* Additional info */}
       <div className="mt-8 text-center text-sm text-orange-300/70">
-        <p>Your information is secure and will never be shared with third parties.</p>
+        <p>Your thoughts are valuable to us. We will never share your information with third parties.</p>
         <p className="mt-2">Press ESC or click outside the form to cancel.</p>
       </div>
     </div>
