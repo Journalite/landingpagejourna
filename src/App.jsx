@@ -332,6 +332,232 @@ const FormTextArea = ({ name, placeholder, value, onChange, required }) => {
   );
 };
 
+const TypeformContact = () => {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    field: "",
+    type: ""
+  });
+  const [progress, setProgress] = useState(25);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const inputRef = useRef(null);
+
+  const questions = [
+    {
+      id: "name",
+      question: "What's your name?",
+      placeholder: "Type your name here...",
+      type: "text"
+    },
+    {
+      id: "email",
+      question: "What's your email address?",
+      placeholder: "name@example.com",
+      type: "email"
+    },
+    {
+      id: "field",
+      question: "What field of journalism interests you or what do you think journalism is lacking?",
+      placeholder: "Share your thoughts here...",
+      type: "textarea"
+    },
+    {
+      id: "type",
+      question: "What type of journalist are you?",
+      placeholder: "E.g., Investigative, Sports, Political, Student, Aspiring...",
+      type: "text"
+    }
+  ];
+
+  useEffect(() => {
+    // Focus the input when question changes
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+    
+    // Update progress
+    setProgress((currentQuestion + 1) * 25);
+  }, [currentQuestion]);
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [questions[currentQuestion].id]: e.target.value
+    });
+  };
+
+  const handleNext = () => {
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      handleSubmit();
+    }
+  };
+
+  const handleBack = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+    }
+  };
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    
+    try {
+      // Use the correct Apps Script URL
+      const scriptURL = "https://script.google.com/macros/s/AKfycbxhV2QkusH2ugxpSgRFBOMcvrsQnzaUMFoCDg2NYpsvqOTRIZXoXgIAywXrQki7q2Dm/exec";
+      
+      // Create form data for submission
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('field', formData.field);
+      formDataToSend.append('type', formData.type);
+      formDataToSend.append('timestamp', new Date().toISOString());
+      
+      // Send data to Google Apps Script
+      await fetch(scriptURL, {
+        method: 'POST',
+        body: formDataToSend,
+        mode: 'no-cors' // Important for CORS issues
+      });
+      
+      // Show thank you message
+      setCurrentQuestion(questions.length);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      alert("There was an error submitting your form. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && formData[questions[currentQuestion].id] && questions[currentQuestion].type !== 'textarea') {
+      handleNext();
+    }
+  };
+
+  return (
+    <div className="w-full max-w-2xl mx-auto">
+      <div className="bg-gradient-to-b from-orange-900/30 to-orange-950/30 backdrop-blur-sm rounded-xl border border-orange-500/20 shadow-xl overflow-hidden">
+        {/* Progress bar */}
+        <div className="h-1 bg-orange-800/50 w-full relative">
+          <div 
+            className="absolute top-0 left-0 h-full bg-orange-500 transition-all duration-500" 
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+        
+        {/* Form content */}
+        <div className="p-8 md:p-10">
+          {currentQuestion < questions.length ? (
+            <div className="space-y-8">
+              {/* Question */}
+              <div className="text-left">
+                <h3 className="text-2xl font-medium text-white mb-6">
+                  {questions[currentQuestion].question}
+                </h3>
+                
+                {questions[currentQuestion].type === "textarea" ? (
+                  <textarea
+                    ref={inputRef}
+                    value={formData[questions[currentQuestion].id] || ""}
+                    onChange={handleInputChange}
+                    placeholder={questions[currentQuestion].placeholder}
+                    rows="4"
+                    className="w-full px-4 py-3 rounded-lg text-white bg-black/40 
+                      border border-orange-500/20 placeholder-gray-400
+                      focus:border-orange-400/40 focus:ring-1 focus:ring-orange-400/20 
+                      focus:outline-none transition-all duration-300
+                      backdrop-blur-sm resize-none"
+                  />
+                ) : (
+                  <input
+                    ref={inputRef}
+                    type={questions[currentQuestion].type}
+                    value={formData[questions[currentQuestion].id] || ""}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                    placeholder={questions[currentQuestion].placeholder}
+                    className="w-full px-4 py-3 rounded-lg text-white bg-black/40 
+                      border border-orange-500/20 placeholder-gray-400
+                      focus:border-orange-400/40 focus:ring-1 focus:ring-orange-400/20 
+                      focus:outline-none transition-all duration-300
+                      backdrop-blur-sm"
+                  />
+                )}
+              </div>
+              
+              {/* Navigation */}
+              <div className="flex justify-between items-center pt-6">
+                {currentQuestion > 0 ? (
+                  <button 
+                    onClick={handleBack}
+                    className="px-4 py-2 rounded-lg border border-orange-500/20 text-orange-300 hover:bg-orange-900/20 transition-all"
+                  >
+                    Back
+                  </button>
+                ) : (
+                  <div></div> // Empty div to maintain layout
+                )}
+                
+                <button 
+                  onClick={handleNext}
+                  disabled={!formData[questions[currentQuestion].id] || isSubmitting}
+                  className={`px-6 py-2 rounded-lg text-white transition-all relative overflow-hidden group
+                    ${formData[questions[currentQuestion].id] && !isSubmitting
+                      ? "bg-orange-500/80 hover:bg-orange-500" 
+                      : "bg-orange-500/30 cursor-not-allowed"}`}
+                >
+                  <span className="relative z-10">
+                    {currentQuestion === questions.length - 1 
+                      ? (isSubmitting ? "Sending..." : "Submit") 
+                      : "Next"}
+                  </span>
+                  {formData[questions[currentQuestion].id] && !isSubmitting && (
+                    <div className="absolute inset-0 animate-glossy"></div>
+                  )}
+                </button>
+              </div>
+              
+              {/* Page indicator */}
+              <div className="text-center text-sm text-orange-300/70">
+                Question {currentQuestion + 1} of {questions.length}
+              </div>
+            </div>
+          ) : (
+            <div className="py-10 text-center space-y-6">
+              <div className="text-5xl mb-4">✓</div>
+              <h3 className="text-2xl font-medium text-white">Thank you!</h3>
+              <p className="text-orange-200">
+                We've received your information and will keep you updated on Journalite.
+              </p>
+              <button 
+                onClick={() => {
+                  setCurrentQuestion(0);
+                  setFormData({name: "", email: "", field: "", type: ""});
+                }}
+                className="mt-6 px-6 py-2 rounded-lg bg-orange-500/80 hover:bg-orange-500 text-white transition-all"
+              >
+                Start Over
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* Additional info */}
+      <div className="mt-8 text-center text-sm text-orange-300/70">
+        <p>Your information is secure and will never be shared with third parties.</p>
+        <p className="mt-2">Press ESC or click outside the form to cancel.</p>
+      </div>
+    </div>
+  );
+};
+
 const LandingPage = () => {
   const [formData, setFormData] = useState({ email: "", message: "" });
   const [loading, setLoading] = useState(false);
@@ -647,95 +873,13 @@ const LandingPage = () => {
       )}
 
       {/* Contact Section */}
-      <section id="contact" className="min-h-screen flex flex-col items-center justify-center bg-orange-950 px-10 text-center">
+      <section id="contact" className="min-h-screen flex flex-col items-center justify-center bg-orange-950 px-6 md:px-10 text-center">
         <h2 className="text-4xl font-bold">Contact Us</h2>
         <p className="mt-4 text-lg">Send us an email at <span className="text-orange-400">hq@journalite.app</span></p>
 
-        <form className="mt-6 w-full max-w-md space-y-8" onSubmit={handleSubmit}>
-          <div className="relative w-full group">
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              onInvalid={(e) => {
-                e.preventDefault();
-                e.target.parentElement.classList.add('show-error');
-              }}
-              onInput={(e) => {
-                e.target.parentElement.classList.remove('show-error');
-              }}
-              className="w-full px-4 py-3 rounded-lg text-white 
-                bg-gradient-to-r from-orange-800/20 to-orange-700/20
-                border border-orange-500/20 placeholder-gray-300
-                focus:border-orange-400/40 focus:ring-1 focus:ring-orange-400/20 
-                focus:outline-none transition-all duration-300
-                backdrop-blur-sm shadow-lg
-                hover:border-orange-400/30"
-            />
-            <div className="absolute -bottom-6 left-0 text-sm text-orange-400 
-              bg-orange-950/95 px-3 py-1 rounded-md shadow-lg backdrop-blur-sm 
-              border border-orange-500/20 opacity-0 -translate-y-1
-              transition-all duration-200 pointer-events-none
-              group-[.show-error]:opacity-100 group-[.show-error]:translate-y-0">
-              Please fill out this field
-            </div>
-          </div>
-
-          <div className="relative w-full group">
-            <textarea
-              name="message"
-              placeholder="Your message"
-              value={formData.message}
-              onChange={handleChange}
-              required
-              onInvalid={(e) => {
-                e.preventDefault();
-                e.target.parentElement.classList.add('show-error');
-              }}
-              onInput={(e) => {
-                e.target.parentElement.classList.remove('show-error');
-              }}
-              rows="4"
-              className="w-full px-4 py-3 rounded-lg text-white 
-                bg-gradient-to-r from-orange-800/20 to-orange-700/20
-                border border-orange-500/20 placeholder-gray-300
-                focus:border-orange-400/40 focus:ring-1 focus:ring-orange-400/20 
-                focus:outline-none transition-all duration-300
-                backdrop-blur-sm shadow-lg resize-none
-                hover:border-orange-400/30"
-            />
-            <div className="absolute -bottom-6 left-0 text-sm text-orange-400 
-              bg-orange-950/95 px-3 py-1 rounded-md shadow-lg backdrop-blur-sm 
-              border border-orange-500/20 opacity-0 -translate-y-1
-              transition-all duration-200 pointer-events-none
-              group-[.show-error]:opacity-100 group-[.show-error]:translate-y-0">
-              Please fill out this field
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className={`mt-8 px-6 py-3 w-full text-lg font-medium
-              text-white relative overflow-hidden
-              bg-orange-800/40 
-              border border-orange-400/30
-              rounded-lg backdrop-blur-sm
-              transition-all duration-300 
-              group
-              ${loading ? "opacity-50 cursor-not-allowed" : ""}
-              focus:outline-none focus:ring-1 focus:ring-orange-400/20`}
-            disabled={loading}
-          >
-            <span className="relative z-10">
-              {loading ? "Sending..." : "Send Message"}
-            </span>
-            <div className="absolute inset-0 animate-glossy" />
-            <div className="absolute inset-0 bg-gradient-to-r from-orange-800/40 via-orange-700/40 to-orange-800/40" />
-          </button>
-        </form>
+        <div className="mt-12 w-full">
+          <TypeformContact />
+        </div>
       </section>
 
       {/* Footer */}
