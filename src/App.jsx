@@ -533,7 +533,7 @@ const TypeformContact = () => {
               <div className="text-5xl mb-4">✓</div>
               <h3 className="text-2xl font-medium text-white">Thank you!</h3>
               <p className="text-orange-200">
-                We've received your information and will keep you updated on Journalite.
+                We've received your information and will keep you updated on Journalite's progress.
               </p>
               <button 
                 onClick={() => {
@@ -884,7 +884,7 @@ const LandingPage = () => {
 
       {/* Footer */}
       <footer className="w-full py-6 bg-orange-950 text-center text-sm text-orange-300">
-        &copy; {new Date().getFullYear()} Journa Media Company. All rights reserved.
+        &copy; {new Date().getFullYear()} Journa Media. All rights reserved.
       </footer>
     </div>
   );
