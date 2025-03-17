@@ -407,7 +407,7 @@ const TypeformContact = () => {
     
     try {
       // Use the correct Apps Script URL
-      const scriptURL = "https://script.google.com/macros/s/AKfycbxhV2QkusH2ugxpSgRFBOMcvrsQnzaUMFoCDg2NYpsvqOTRIZXoXgIAywXrQki7q2Dm/exec";
+      const scriptURL = "https://script.google.com/macros/s/AKfycbzK7SqA89irJC8hVpykAwfvzvTTOILGhByvTO4XBjA6IvSKKaKCG7AYce7lPqG7nBLX/exec";
       
       // Create form data for submission
       const formDataToSend = new FormData();
@@ -533,7 +533,7 @@ const TypeformContact = () => {
               <div className="text-5xl mb-4">✓</div>
               <h3 className="text-2xl font-medium text-white">Thank you!</h3>
               <p className="text-orange-200">
-                We've received your information and will keep you updated on Journalite's progress.
+                We've received your information and will keep you updated on Journalite.
               </p>
               <button 
                 onClick={() => {
