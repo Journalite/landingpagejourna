@@ -884,7 +884,7 @@ const LandingPage = () => {
 
       {/* Footer */}
       <footer className="w-full py-6 bg-orange-950 text-center text-sm text-orange-300">
-        &copy; {new Date().getFullYear()} Journa Media. All rights reserved.
+        &copy; {new Date().getFullYear()} Journa Media Company. All rights reserved.
       </footer>
     </div>
   );
