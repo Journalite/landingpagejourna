@@ -859,11 +859,11 @@ const LandingPage = () => {
 
         <div className="flex flex-wrap justify-center max-w-screen-lg w-full">
           {[
-            { name: "Abdul-Malik Bello", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/malikbello/", img: "abdul.png" },
-            { name: "Abdisalam Sharif Ali", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/abdisalam-ali-a35101257/", img: "abdi.png" },
-            { name: "Abdullah Shittu", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/abdullah-shittu/", img: "abdullah.png" },
-            { name: "Hikmat Oladejo", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/hikmatoladejo/", img: "hikmat.png" },
-            { name: "Theodore Issac", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/theodore-isaac-844103190/", img: "theo.png" }
+            { name: "Abdul-Malik Bello", role: "Co-Founder ", linkedin: "https://www.linkedin.com/in/malikbello/", img: "abdul.png" },
+            { name: "Abdisalam Sharif Ali", role: "Co-Founder ", linkedin: "https://www.linkedin.com/in/abdisalam-ali-a35101257/", img: "abdi.png" },
+            { name: "Abdullah Shittu", role: "Co-Founder ", linkedin: "https://www.linkedin.com/in/abdullah-shittu/", img: "abdullah.png" },
+            { name: "Hikmat Oladejo", role: "Co-Founder ", linkedin: "https://www.linkedin.com/in/hikmatoladejo/", img: "hikmat.png" },
+            { name: "Theodore Issac", role: "Co-Founder ", linkedin: "https://www.linkedin.com/in/theodore-isaac-844103190/", img: "theo.png" }
           ].map((member, index) => (
             <div key={index}
               className={`flex flex-col items-center text-center space-y-4 mx-6 my-4 min-w-[260px] max-w-[280px]
