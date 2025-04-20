@@ -166,11 +166,11 @@ const CustomVideoPlayer = () => {
       {/* Custom Controls */}
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
         {/* Progress Bar */}
-        <div 
+        <div
           className="w-full h-1 bg-orange-400/30 cursor-pointer rounded-full mb-4"
           onClick={handleProgressBarClick}
         >
-          <div 
+          <div
             className="h-full bg-orange-500 rounded-full transition-all duration-150"
             style={{ width: `${progress}%` }}
           />
@@ -206,20 +206,19 @@ const CustomVideoPlayer = () => {
               >
                 {isMuted ? (
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M3.63 3.63a.996.996 0 000 1.41L7.29 8.7 7 9H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71v-4.17l4.18 4.18c-.49.37-1.02.68-1.6.91-.36.15-.58.53-.58.92 0 .72.73 1.18 1.39.91.8-.33 1.55-.77 2.22-1.31l1.34 1.34a.996.996 0 101.41-1.41L5.05 3.63a.996.996 0 00-1.42 0zM19 12c0 .82-.15 1.61-.41 2.34l1.53 1.53c.56-1.17.88-2.48.88-3.87 0-3.83-2.4-7.11-5.78-8.4-.59-.23-1.22.23-1.22.86v.19c0 .38.25.71.61.85C17.18 6.54 19 9.06 19 12zm-8.71-6.29l-.17.17L12 7.76V6.41c0-.89-1.08-1.33-1.71-.7zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v1.79l2.48 2.48c.01-.08.02-.16.02-.24z"/>
+                    <path d="M3.63 3.63a.996.996 0 000 1.41L7.29 8.7 7 9H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71v-4.17l4.18 4.18c-.49.37-1.02.68-1.6.91-.36.15-.58.53-.58.92 0 .72.73 1.18 1.39.91.8-.33 1.55-.77 2.22-1.31l1.34 1.34a.996.996 0 101.41-1.41L5.05 3.63a.996.996 0 00-1.42 0zM19 12c0 .82-.15 1.61-.41 2.34l1.53 1.53c.56-1.17.88-2.48.88-3.87 0-3.83-2.4-7.11-5.78-8.4-.59-.23-1.22.23-1.22.86v.19c0 .38.25.71.61.85C17.18 6.54 19 9.06 19 12zm-8.71-6.29l-.17.17L12 7.76V6.41c0-.89-1.08-1.33-1.71-.7zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v1.79l2.48 2.48c.01-.08.02-.16.02-.24z" />
                   </svg>
                 ) : (
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
                   </svg>
                 )}
               </button>
-              
+
               {/* Volume Slider */}
-              <div 
-                className={`absolute left-0 -top-14 bg-orange-950/90 p-2 rounded-lg transition-all duration-200 ${
-                  showVolumeSlider ? 'opacity-100 visible' : 'opacity-0 invisible'
-                }`}
+              <div
+                className={`absolute left-0 -top-14 bg-orange-950/90 p-2 rounded-lg transition-all duration-200 ${showVolumeSlider ? 'opacity-100 visible' : 'opacity-0 invisible'
+                  }`}
                 onMouseEnter={() => setShowVolumeSlider(true)}
                 onMouseLeave={() => setShowVolumeSlider(false)}
               >
@@ -342,6 +341,7 @@ const TypeformContact = () => {
   });
   const [progress, setProgress] = useState(25);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationError, setValidationError] = useState("");
   const inputRef = useRef(null);
 
   const questions = [
@@ -376,9 +376,12 @@ const TypeformContact = () => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-    
+
     // Update progress
     setProgress((currentQuestion + 1) * 25);
+
+    // Clear validation error when moving to a new question
+    setValidationError("");
   }, [currentQuestion]);
 
   const handleInputChange = (e) => {
@@ -386,9 +389,23 @@ const TypeformContact = () => {
       ...formData,
       [questions[currentQuestion].id]: e.target.value
     });
+    // Clear validation error when user starts typing
+    if (validationError) {
+      setValidationError("");
+    }
+  };
+
+  const validateEmail = (email) => {
+    return email.includes('@') && email.includes('.');
   };
 
   const handleNext = () => {
+    // For email field, validate format before proceeding
+    if (questions[currentQuestion].id === "email" && !validateEmail(formData.email)) {
+      setValidationError("Please enter a valid email address (must include @ and .)");
+      return;
+    }
+
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
@@ -404,11 +421,11 @@ const TypeformContact = () => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    
+
     try {
       // Use your new Apps Script URL
       const scriptURL = "https://script.google.com/macros/s/AKfycbzIGXgGSewkCte6TBbC1995dg1hWKoOPw2oGBSMINZ_mUi_UMgU3CwKD5e6KFrNqQainQ/exec";
-      
+
       // Create URL with query parameters
       const url = new URL(scriptURL);
       url.searchParams.append('name', formData.name);
@@ -416,17 +433,17 @@ const TypeformContact = () => {
       url.searchParams.append('field', formData.field);
       url.searchParams.append('type', formData.type);
       url.searchParams.append('timestamp', new Date().toISOString());
-      
+
       console.log("Submitting form data to:", url.toString());
-      
+
       // Send data to Google Apps Script using GET with parameters
       await fetch(url.toString(), {
         method: 'GET',
         mode: 'no-cors' // Important for CORS issues
       });
-      
+
       console.log("Form submitted successfully");
-      
+
       // Show thank you message
       setCurrentQuestion(questions.length);
     } catch (error) {
@@ -448,12 +465,12 @@ const TypeformContact = () => {
       <div className="bg-gradient-to-b from-orange-900/30 to-orange-950/30 backdrop-blur-sm rounded-xl border border-orange-500/20 shadow-xl overflow-hidden">
         {/* Progress bar */}
         <div className="h-1 bg-orange-800/50 w-full relative">
-          <div 
-            className="absolute top-0 left-0 h-full bg-orange-500 transition-all duration-500" 
+          <div
+            className="absolute top-0 left-0 h-full bg-orange-500 transition-all duration-500"
             style={{ width: `${progress}%` }}
           ></div>
         </div>
-        
+
         {/* Form content */}
         <div className="p-8 md:p-10">
           {currentQuestion < questions.length ? (
@@ -463,7 +480,7 @@ const TypeformContact = () => {
                 <h3 className="text-2xl font-medium text-white mb-6">
                   {questions[currentQuestion].question}
                 </h3>
-                
+
                 {questions[currentQuestion].type === "textarea" ? (
                   <textarea
                     ref={inputRef}
@@ -485,19 +502,26 @@ const TypeformContact = () => {
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
                     placeholder={questions[currentQuestion].placeholder}
-                    className="w-full px-4 py-3 rounded-lg text-white bg-black/40 
-                      border border-orange-500/20 placeholder-gray-400
+                    className={`w-full px-4 py-3 rounded-lg text-white bg-black/40 
+                      border ${validationError ? 'border-red-500' : 'border-orange-500/20'} placeholder-gray-400
                       focus:border-orange-400/40 focus:ring-1 focus:ring-orange-400/20 
                       focus:outline-none transition-all duration-300
-                      backdrop-blur-sm"
+                      backdrop-blur-sm`}
                   />
                 )}
+
+                {/* Validation error message */}
+                {validationError && (
+                  <div className="mt-2 text-red-400 text-sm animate-fadeIn">
+                    {validationError}
+                  </div>
+                )}
               </div>
-              
+
               {/* Navigation */}
               <div className="flex justify-between items-center pt-6">
                 {currentQuestion > 0 ? (
-                  <button 
+                  <button
                     onClick={handleBack}
                     className="px-4 py-2 rounded-lg border border-orange-500/20 text-orange-300 hover:bg-orange-900/20 transition-all"
                   >
@@ -506,18 +530,18 @@ const TypeformContact = () => {
                 ) : (
                   <div></div> // Empty div to maintain layout
                 )}
-                
-                <button 
+
+                <button
                   onClick={handleNext}
                   disabled={!formData[questions[currentQuestion].id] || isSubmitting}
                   className={`px-6 py-2 rounded-lg text-white transition-all relative overflow-hidden group
                     ${formData[questions[currentQuestion].id] && !isSubmitting
-                      ? "bg-orange-500/80 hover:bg-orange-500" 
+                      ? "bg-orange-500/80 hover:bg-orange-500"
                       : "bg-orange-500/30 cursor-not-allowed"}`}
                 >
                   <span className="relative z-10">
-                    {currentQuestion === questions.length - 1 
-                      ? (isSubmitting ? "Sending..." : "Submit") 
+                    {currentQuestion === questions.length - 1
+                      ? (isSubmitting ? "Sending..." : "Submit")
                       : "Next"}
                   </span>
                   {formData[questions[currentQuestion].id] && !isSubmitting && (
@@ -525,7 +549,7 @@ const TypeformContact = () => {
                   )}
                 </button>
               </div>
-              
+
               {/* Page indicator */}
               <div className="text-center text-sm text-orange-300/70">
                 Question {currentQuestion + 1} of {questions.length}
@@ -538,10 +562,10 @@ const TypeformContact = () => {
               <p className="text-orange-200">
                 We've received your information and will keep you updated on Journalite.
               </p>
-              <button 
+              <button
                 onClick={() => {
                   setCurrentQuestion(0);
-                  setFormData({name: "", email: "", field: "", type: ""});
+                  setFormData({ name: "", email: "", field: "", type: "" });
                 }}
                 className="mt-6 px-6 py-2 rounded-lg bg-orange-500/80 hover:bg-orange-500 text-white transition-all"
               >
@@ -551,7 +575,7 @@ const TypeformContact = () => {
           )}
         </div>
       </div>
-      
+
       {/* Additional info */}
       <div className="mt-8 text-center text-sm text-orange-300/70">
         <p>Your thoughts are valuable to us. We will never share your information with third parties.</p>
@@ -589,14 +613,14 @@ const LandingPage = () => {
   useEffect(() => {
     // Scroll to top when the component mounts
     window.scrollTo(0, 0);
-    
+
     // Remove any hash from the URL without triggering a page reload
     if (window.location.hash) {
       const scrollToTop = () => {
         window.scrollTo(0, 0);
         history.replaceState(null, document.title, window.location.pathname + window.location.search);
       };
-      
+
       // Use setTimeout to ensure this happens after any browser's automatic scroll to hash
       setTimeout(scrollToTop, 0);
     }
@@ -705,7 +729,7 @@ const LandingPage = () => {
         </div>
 
         {/* Mobile Menu Overlay */}
-        <div 
+        <div
           className={`md:hidden fixed inset-0 w-full min-h-screen
             backdrop-blur-xl bg-gradient-to-b from-orange-950/95 to-orange-900/95
             transition-all duration-300 ease-out
@@ -752,7 +776,7 @@ const LandingPage = () => {
         transition-colors duration-500 px-4 text-center">
         <h1 className="text-5xl md:text-6xl font-bold">Journalite</h1>
         <p className="mt-2 text-lg md:text-xl">Journalism Re-engineered, Home of Journalism</p>
-      
+
         <div className="mt-4 text-lg">
           <TypeWriter />
         </div>
@@ -835,13 +859,13 @@ const LandingPage = () => {
 
         <div className="flex flex-wrap justify-center max-w-screen-lg w-full">
           {[
-            { name: "Abdul-Malik Bello", role: "CEO - Co-Founder", linkedin: "https://www.linkedin.com/in/malikbello/", img: "abdul.png" },
+            { name: "Abdul-Malik Bello", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/malikbello/", img: "abdul.png" },
             { name: "Abdisalam Sharif Ali", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/abdisalam-ali-a35101257/", img: "abdi.png" },
-            { name: "Abdullah Shittu", role: "CTO - Co-Founder", linkedin: "https://www.linkedin.com/in/abdullah-shittu/", img: "abdullah.png" },
+            { name: "Abdullah Shittu", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/abdullah-shittu/", img: "abdullah.png" },
             { name: "Hikmat Oladejo", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/hikmatoladejo/", img: "hikmat.png" },
-            { name: "Theodore Issac", role: "CBO - Co-Founder", linkedin: "https://www.linkedin.com/in/theodore-isaac-844103190/", img: "theo.png" }
+            { name: "Theodore Issac", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/theodore-isaac-844103190/", img: "theo.png" }
           ].map((member, index) => (
-            <div key={index} 
+            <div key={index}
               className={`flex flex-col items-center text-center space-y-4 mx-6 my-4 min-w-[260px] max-w-[280px]
                 ${index === 4 ? "w-full flex justify-center" : ""}`}
             >
@@ -873,18 +897,18 @@ const LandingPage = () => {
           aria-label="Scroll to top"
         >
           <div className="relative">
-            <svg 
-              className="w-5 h-5 md:w-6 md:h-6 transition-transform duration-300 group-hover:-translate-y-1" 
-              xmlns="http://www.w3.org/2000/svg" 
-              fill="none" 
-              viewBox="0 0 24 24" 
+            <svg
+              className="w-5 h-5 md:w-6 md:h-6 transition-transform duration-300 group-hover:-translate-y-1"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="2" 
-                d="M5 10l7-7m0 0l7 7m-7-7v18" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 10l7-7m0 0l7 7m-7-7v18"
               />
             </svg>
             <div className="absolute inset-0 animate-glossy" />

@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       keyframes: {
         fadeIn: {
-          '0%': { opacity: '0', transform: 'translateY(-10px)' },
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' }
         },
         glossy: {
@@ -20,8 +20,12 @@ module.exports = {
         }
       },
       animation: {
-        fadeIn: 'fadeIn 0.2s ease-out',
-        'glossy': 'glossy 1s ease-in-out infinite'
+        'fade-in-1': 'fadeIn 0.8s ease-out forwards',
+        'fade-in-2': 'fadeIn 0.8s ease-out 0.2s forwards',
+        'fade-in-3': 'fadeIn 0.8s ease-out 0.4s forwards',
+        'fade-in-4': 'fadeIn 0.8s ease-out 0.6s forwards',
+        'fade-in-5': 'fadeIn 0.8s ease-out 0.8s forwards',
+        glossy: 'glossy 1s ease-in-out infinite'
       }
     }
   },
