@@ -855,7 +855,7 @@ const LandingPage = () => {
         bg-gradient-to-b from-orange-800 via-orange-900 to-orange-950
         transition-colors duration-500 text-white text-center">
         <h2 className="text-4xl font-bold mb-6">Meet Our Team</h2>
-        <p className="text-lg mb-8">A dedicated group of journalists, developers, and visionaries shaping the future of media.</p>
+        <p className="text-lg mb-8">A passionate team of innovators, developers, and visionaries redefining the landscape of media.</p>
 
         <div className="flex flex-wrap justify-center max-w-screen-lg w-full">
           {[
