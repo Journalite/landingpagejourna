@@ -782,7 +782,7 @@ const LandingPage = () => {
         </div>
 
         <div className="mt-4 relative inline-block">
-          <a href="https://mvp.jouranlite.app" target="_blank" rel="noopener noreferrer" className="text-orange-400 hover:text-orange-300 transition-colors duration-200 relative z-10 font-bold">
+          <a href="https://mvp.journalite.app/" target="_blank" rel="noopener noreferrer" className="text-orange-400 hover:text-orange-300 transition-colors duration-200 relative z-10 font-bold">
             Visit our MVP
           </a>
           <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-300 opacity-70 rounded-lg blur-md animate-glossy"></div>
