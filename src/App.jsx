@@ -794,6 +794,8 @@ const LandingPage = () => {
         </div>
       </section>
 
+      { /* test */}
+
       {/* Mission section */}
       <section id="mission" className="min-h-screen py-20 flex flex-col items-center justify-center px-6 md:px-16 
         bg-gradient-to-b from-orange-700 via-orange-700 to-orange-800
